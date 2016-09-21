@@ -8,13 +8,13 @@ This is a proof of concept and was not tested in production so far.
 First we need to serialize the plugin assembly's part information. This should be done in advance - a good place to put this is probably the plugin's post-build event.
 ```
 // Serialize assembly imports, exports, and metadata to file.
-SerializationUtils.SerializeAssemblyPartInformation(typeof(MyPlugin).Assembly, @"C:\MyPluginExportData.xml");
+SerializationUtils.SerializeAssemblyPartInformation(typeof(MyPlugin).Assembly, @"C:\PartInformation.xml");
 ```
 
 Now that we have the serialized part information, the application can create a `LazyAssemblyCatalog` from this data.
 ```
 // Create the catalog and pass the serialized data
-var catalog = new LazyAssemblyCatalog(@"C:\MyPluginExportData.xml");
+var catalog = new LazyAssemblyCatalog(@"C:\PartInformation.xml");
 ```
 
 To avoid unnecessary assembly loading, imports should be wrapped in `Lazy` and use interfaces which are already loaded and available to the application, for example:
