@@ -26,7 +26,7 @@ public Lazy<IPlugin, IPluginMetadata>[] Plugins { get; set; }
 public Lazy<IDependency> Dependency { get; set; }
 ```
 
-A sample program can be seen in the "Tester" project.
+A sample program can be found in the "Sample" folder.
 
 ## Motivation
 

@@ -1,20 +1,19 @@
-﻿using LazyAssemblyLoading;
-using LazyAssemblyLoading.Serialization;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using TestInterfaces;
+using Interfaces;
+using LazyAssemblyLoading;
+using LazyAssemblyLoading.Serialization;
 
-namespace Tester
+namespace LazyAssemblyLoadingSample
 {
     class Program : MarshalByRefObject
     {
         private const string DataFile = @"C:\partInformation.xml";
+        private const string PluginAssemblyName = "PluginAssembly";
+        private const string PluginAssemblyFileName = "PluginAssembly.dll";
 
         [ImportMany]
         public Lazy<IPlugin, IPluginMetadata>[] Plugins { get; set; }
@@ -24,20 +23,22 @@ namespace Tester
             // Serialize the plugin assembly's exports to a file.
             // This is done in a different app domain, which is then immediately unloaded so the assembly is not loaded after this line.
             // In a real-world application, the serialization process would probably take place in the plugin's post-build event.
-            CreatePartInformationInAnotherAppDomain("TestAssembly1.dll", DataFile);
+            CreatePartInformationInAnotherAppDomain(PluginAssemblyFileName, DataFile);
 
             // Compose
             var p = new Program();
             p.ComposeUsingLazyAssemblyCatalog();
 
             // Plugin metadata is accessible even though the plugin assembly has not been loaded
-            Console.WriteLine("Plugin name: {0}", p.Plugins[0].Metadata.Name);
-            Console.WriteLine("Is Loaded: {0}", IsAssemblyLoaded("TestAssembly1"));
+            string pluginName = p.Plugins[0].Metadata.Name;
+            Console.WriteLine("Plugin name (taken from metadata): {0}", pluginName);
+            Console.WriteLine("Is assembly {0} loaded: {1}", PluginAssemblyName, IsAssemblyLoaded(PluginAssemblyName));
 
             // Accessing the plugin itself will implicitly load its assembly
-            Console.WriteLine("Creating plugin");
+            Console.WriteLine("Creating plugin {0} by accessing its Value property", pluginName);
             var plugin = p.Plugins[0].Value;
-            Console.WriteLine("Is Loaded: {0}", IsAssemblyLoaded("TestAssembly1"));
+            Console.WriteLine("Is assembly {0} loaded: {1}", PluginAssemblyName, IsAssemblyLoaded(PluginAssemblyName));
+
             plugin.Initialize();
         }
 
