@@ -11,7 +11,7 @@ namespace LazyAssemblyLoadingSample
 {
     class Program : MarshalByRefObject
     {
-        private const string DataFile = @"C:\partInformation.xml";
+        private const string DataFile = @"partInformation.xml";
         private const string PluginAssemblyName = "PluginAssembly";
         private const string PluginAssemblyFileName = "PluginAssembly.dll";
 

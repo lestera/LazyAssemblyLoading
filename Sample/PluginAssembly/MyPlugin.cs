@@ -8,7 +8,7 @@ namespace PluginAssembly
     {
         public void Initialize()
         {
-            Console.WriteLine("MyPlugin initialized!");
+            Console.WriteLine("{0} initialized!", GetType().FullName);
         }
     }
 }
