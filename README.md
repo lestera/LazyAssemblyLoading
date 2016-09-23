@@ -1,6 +1,6 @@
 ## Synopsis
 
-This library aims to extend [MEF (Managed Extensibility Framework)](https://msdn.microsoft.com/en-us/library/dd460648%28v=vs.110%29.aspx) with a new catalog that supports lazy loading of plugins while still making their metadata available.
+This library aims to extend [MEF (Managed Extensibility Framework)](https://msdn.microsoft.com/en-us/library/dd460648%28v=vs.110%29.aspx) with a new catalog that supports lazy loading of plugin assemblies while still making their metadata available.
 This is a proof of concept and was not tested in production so far.
 
 ## Example usage
